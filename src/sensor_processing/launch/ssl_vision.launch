@@ -1,0 +1,3 @@
+<launch>
+    <node name="ssl_vision_node" pkg="sensor_processing" type="ssl_vision_node.py" respawn="true"/>
+</launch>

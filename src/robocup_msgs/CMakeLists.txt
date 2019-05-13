@@ -11,6 +11,7 @@ add_message_files(
   FILES
   Position.msg
   Strategy.msg
+  RobotData.msg
 )
 
 generate_messages(
