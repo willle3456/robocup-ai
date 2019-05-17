@@ -29,18 +29,18 @@ class GRSimConfig:
         for i in range(num_yellow):
             pkt.replacement.robots[i].x = self.config.robots_yellow[i].pose.x / 100.0
             pkt.replacement.robots[i].y = self.config.robots_yellow[i].pose.y / 100.0
-            pkt.replacement.robots[i].dir = self.config.robots_yellow[i].pose.theta / 100.0
+            pkt.replacement.robots[i].dir = self.config.robots_yellow[i].pose.theta
             pkt.replacement.robots[i].id = i
             pkt.replacement.robots[i].yellowteam = True
-            pkt.replacement.robots[i].turnon = False
+            pkt.replacement.robots[i].turnon = True
         offset = num_yellow;
         for i in range(num_blue):
             pkt.replacement.robots[i+offset].x = self.config.robots_blue[i].pose.x / 100.0
             pkt.replacement.robots[i+offset].y = self.config.robots_blue[i].pose.y / 100.0
-            pkt.replacement.robots[i+offset].dir = self.config.robots_blue[i].pose.theta / 100.0
+            pkt.replacement.robots[i+offset].dir = self.config.robots_blue[i].pose.theta
             pkt.replacement.robots[i+offset].id = i
             pkt.replacement.robots[i+offset].yellowteam = False
-            pkt.replacement.robots[i+offset].turnon = False
+            pkt.replacement.robots[i+offset].turnon = True
 
         msg = pkt.SerializeToString()
         self.sock.sendto(msg, (self.addr, self.port))
@@ -50,5 +50,5 @@ class GRSimConfig:
         self.sendto_grsim()
 
 if __name__ == '__main__':
-    config_parser = GRSimConfig('../../config/sample.place')
+    config_parser = GRSimConfig('/home/willdle/Documents/robocup-ai/src/robocup_master/config/sample.place')
     config_parser.setup_grsim()

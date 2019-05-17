@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find sensor_processing)/launch/ssl_vision.launch"/>   
+    <include file="$(find player)/launch/player.launch"/>
+</launch>
