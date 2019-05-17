@@ -6,5 +6,5 @@
 #from .robot import *
 from .path_planning.path_planner import *
 from .path_planning.planner_plotter import *
-#from .path_planning.prm import *
+from .path_planning.prm import *
 from .path_planning.rrt import *
