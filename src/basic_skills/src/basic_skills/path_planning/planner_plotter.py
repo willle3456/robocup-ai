@@ -23,6 +23,7 @@ class PlannerPlotter(object):
         plt.draw()
 
     def draw(self):
+        self.ax.clear()
         if self.planner.found_goal:
             self.get_path_lines()
             if len(self.path_lines) < 1:
@@ -36,30 +37,36 @@ class PlannerPlotter(object):
         self.get_graph_lines()
         lc = mc.LineCollection(self.graph_lines, linewidths=0.5)
         self.ax.add_collection(lc)
+        #self.draw_nodes()
         self.draw_obstacles()
         self.draw_start()
         self.draw_goal_area()
         self.fig.canvas.draw()
+        self.fig.canvas.flush_events()
+        self.graph_lines = []
+        self.path_lines = []
 
     def draw_obstacles(self):
         for o in self.planner.obstacles:
             tmp_circle = plt.Circle((o.x, o.y), self.planner.bot_size/2, color='r')
             self.ax.add_artist(tmp_circle)
 
+    def draw_nodes(self):
+        for node in list(self.planner.graph.nodes()):
+            dumb_circle = plt.Circle((node.x, node.y), 3, color='b')
+            self.ax.add_artist(dumb_circle)
+
     def draw_start(self):
         me_circle = plt.Circle((self.planner.start.x, self.planner.start.y), self.planner.bot_size/2, color='g')
         self.ax.add_artist(me_circle)
 
     def draw_goal_area(self):
-        goal_circle = plt.Circle((self.planner.goal.x, self.planner.goal.y), (2 * self.planner.bot_size), color='#ffa500')
+        goal_circle = plt.Circle((self.planner.goal.x, self.planner.goal.y), (1 * self.planner.bot_size), color='#ffa500')
         self.ax.add_artist(goal_circle)
     
     def get_graph_lines(self):
-        for u, v, a in self.planner.graph.edges(data=True):
-            if a['drawn']:
-                continue
+        for u, v in self.planner.graph.edges():
             tmp_line = (u.x, u.y), (v.x, v.y)
-            a['drawn'] = True
             self.graph_lines.append(tmp_line)
 
     def get_path(self):
