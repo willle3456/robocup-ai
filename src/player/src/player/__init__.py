@@ -1,2 +1,2 @@
-from .player import *
 from .robot import *
+from .player import *

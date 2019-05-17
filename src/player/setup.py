@@ -7,13 +7,13 @@
 # Distributed under terms of the MIT license.
 
 """
-Build basic_skills module into ROS stack
+Build player module into ROS stack
 """
 from distutils.core import setup
 from catkin_pkg.python_setup import generate_distutils_setup
 
 setup_args = generate_distutils_setup (
-    packages=['basic_skills', 'basic_skills.path_planning'],
+    packages=['player'],
     package_dir={'':'src'},
 )
 
