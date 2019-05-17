@@ -19,7 +19,7 @@ class RRT(PathPlanner):
                 frameinfo = getframeinfo(currentframe())
                 q_new = self.extend(q_rand)
                 if q_new is not None:
-                    if q_new.dist(self.goal) < (2 * self.bot_size):
+                    if q_new.dist(self.goal) < (1 * self.bot_size):
                         self.found_goal = True
                         self.goal_node = q_new
                         break
@@ -34,12 +34,12 @@ class RRT(PathPlanner):
         if self.point_collision(q_new_pt):
             return None
         self.graph.add_node(q_new_pt)
-        self.graph.add_edge(q_near, q_new_pt, drawn=False)
+        self.graph.add_edge(q_near, q_new_pt)
         return q_new_pt
 
     def get_nearest(self, q_rand):
         closest = self.graph.nodes().items()[0][0]
-        closest_dist = Point(-4500, -3000).dist(Point(4500,3000))
+        closest_dist = self.max_dist         
         for node in list(self.graph.nodes()):
             tmp_dist = q_rand.dist(node)
             if tmp_dist < closest_dist:
