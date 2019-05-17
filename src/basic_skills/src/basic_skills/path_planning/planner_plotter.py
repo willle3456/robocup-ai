@@ -9,7 +9,6 @@ from path_planner import PathPlanner
 class PlannerPlotter(object):
     def __init__(self, planner):
         self.planner = planner
-        
         self.fig, self.ax = plt.subplots(1,1)
         self.graph_lines = []
         self.path_lines = []
@@ -56,11 +55,11 @@ class PlannerPlotter(object):
         self.ax.add_artist(goal_circle)
     
     def get_graph_lines(self):
-        for u,v in self.planner.graph.edges:
-            tmp_line = (u.x, u.y), (v.x, v.y)
-            if tmp_line in self.graph_lines:
-                print 'repeated line'
+        for u, v, a in self.planner.graph.edges(data=True):
+            if a['drawn']:
                 continue
+            tmp_line = (u.x, u.y), (v.x, v.y)
+            a['drawn'] = True
             self.graph_lines.append(tmp_line)
 
     def get_path(self):
@@ -88,6 +87,6 @@ class PlannerPlotter(object):
             tmp_line = (last_point.x, last_point.y), (pt.x, pt.y)
             last_point = pt
             self.path_lines.append(tmp_line)
-
+    
     def close(self):
         plt.close()

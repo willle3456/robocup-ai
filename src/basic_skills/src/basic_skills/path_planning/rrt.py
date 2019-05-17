@@ -34,7 +34,7 @@ class RRT(PathPlanner):
         if self.point_collision(q_new_pt):
             return None
         self.graph.add_node(q_new_pt)
-        self.graph.add_edge(q_near, q_new_pt)
+        self.graph.add_edge(q_near, q_new_pt, drawn=False)
         return q_new_pt
 
     def get_nearest(self, q_rand):
