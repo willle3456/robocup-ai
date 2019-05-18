@@ -10,7 +10,7 @@ class PRM(PathPlanner):
         self.graph.clear()
         self.sample_space()
         self.build_road_map()
-
+        self.found_goal = False
         # if path is not found, sample more points until a path is found
         # need to test in denser in environments
         while not self.found_path():

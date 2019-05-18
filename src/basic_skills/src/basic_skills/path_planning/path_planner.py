@@ -52,7 +52,7 @@ class PathPlanner(object):
                
     # not tested yet
     def get_sides(self, obs):
-        offset = self.bot_size/2.0
+        offset = self.bot_size
         point_1 = Point(obs.x - offset, obs.y + offset)
         point_2 = Point(obs.x + offset, obs.y + offset)
         point_3 = Point(obs.x + offset, obs.y - offset)

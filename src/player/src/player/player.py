@@ -31,7 +31,7 @@ class Player(Robot):
                 if not self.init_flg:
                     self.init_flg = True
                     self.planner.start = Point(self.pos.position.x, self.pos.position.y)
-                    self.planner.graph.add_node(self.planner.start)
+                    #self.planner.graph.add_node(self.planner.start)
                 '''
                 revisit this when the robots start moving
                 else:

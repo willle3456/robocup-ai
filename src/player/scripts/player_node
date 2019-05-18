@@ -16,9 +16,9 @@ def run_node(player):
 
 if __name__ == '__main__':
     try:
-        p = Player(RRT(step_size=100, num_iter=50), 5)
-        #p = Player(PRM(num_samples=300, num_neigh=5), 5)
-        #p = Player(FMT(num_samples=400, radius=600), 5)
+        p = Player(RRT(step_size=200, num_iter=600), 5)
+        #p = Player(PRM(num_samples=600, num_neigh=5), 5)
+        #p = Player(FMT(num_samples=1000, radius=400), 5)
         rospy.init_node('player', anonymous=True)    
         rate = rospy.Rate(60)
         run_node(p)

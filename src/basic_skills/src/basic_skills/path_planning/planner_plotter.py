@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import collections as mc
 import networkx as nx
-from networkx import NetworkXNoPath
+from networkx import NetworkXNoPath, NodeNotFound
 from path_planner import PathPlanner
 
 class PlannerPlotter(object):
@@ -25,6 +25,8 @@ class PlannerPlotter(object):
     def draw(self):
         self.ax.clear()
         if self.planner.found_goal:
+            print len(list(self.planner.graph.nodes()))
+            print self.planner.graph.has_node(self.planner.goal_node)
             self.get_path_lines()
             if len(self.path_lines) < 1:
                 self.path_found = False
@@ -61,7 +63,7 @@ class PlannerPlotter(object):
         self.ax.add_artist(me_circle)
 
     def draw_goal_area(self):
-        goal_circle = plt.Circle((self.planner.goal.x, self.planner.goal.y), (1 * self.planner.bot_size), color='#ffa500')
+        goal_circle = plt.Circle((self.planner.goal.x, self.planner.goal.y), (3 * self.planner.bot_size), color='#ffa500')
         self.ax.add_artist(goal_circle)
     
     def get_graph_lines(self):
@@ -72,12 +74,13 @@ class PlannerPlotter(object):
     def get_path(self):
         try:
             return nx.shortest_path(self.planner.graph, self.planner.start, self.planner.goal_node)
-        except NetworkXNoPath:
+        except (NetworkXNoPath, NodeNotFound) as e:
+            #print self.planner.graph.has_node(self.planner.goal_node)
             for node in list(self.planner.graph.nodes()):
                 if node.dist(self.planner.start) < (1.25 * self.planner.bot_size):
                     try:
                         return nx.shortest_path(self.planner.graph, node, self.planner.goal_node)
-                    except NetworkXNoPath:
+                    except (NetworkXNoPath, NodeNotFound) as e:
                         pass
 
     def get_path_lines(self):

@@ -11,6 +11,7 @@ class FMT(PRM):
         self.sample_space()
         self.graph.add_node(self.start)
         self.graph.add_node(self.goal)
+        self.found_goal = False
         v_unvisited = [v for v in list(self.graph.nodes()) if v != self.start]
         v_open = [self.start]
         v_closed = []

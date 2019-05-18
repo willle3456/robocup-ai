@@ -13,13 +13,17 @@ class RRT(PathPlanner):
         self.num_iter = num_iter
 
     def run(self):
-        if not self.found_goal:
+        self.graph.clear()
+        self.graph.add_node(self.start)
+        self.found_goal = False
+        #self.graph.goal_node = None
+        while not self.found_goal:
             for i in range(self.num_iter):
                 q_rand = self.get_random_pt()
                 frameinfo = getframeinfo(currentframe())
                 q_new = self.extend(q_rand)
                 if q_new is not None:
-                    if q_new.dist(self.goal) < (1 * self.bot_size):
+                    if q_new.dist(self.goal) < (3 * self.bot_size):
                         self.found_goal = True
                         self.goal_node = q_new
                         break

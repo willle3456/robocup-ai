@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(player)
 
 find_package(catkin REQUIRED COMPONENTS
-  coach
+  #coach
   rospy
   std_msgs
   robocup_msgs
