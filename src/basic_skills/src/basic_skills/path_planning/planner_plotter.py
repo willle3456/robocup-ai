@@ -37,7 +37,7 @@ class PlannerPlotter(object):
         self.get_graph_lines()
         lc = mc.LineCollection(self.graph_lines, linewidths=0.5)
         self.ax.add_collection(lc)
-        #self.draw_nodes()
+        self.draw_nodes()
         self.draw_obstacles()
         self.draw_start()
         self.draw_goal_area()
