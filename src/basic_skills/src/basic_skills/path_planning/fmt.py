@@ -65,6 +65,6 @@ class FMT(PRM):
                 tmp_cost += pt.dist(n)
             if tmp_cost < min_cost:
                 node = n
-        return n
+        return node
         
 
