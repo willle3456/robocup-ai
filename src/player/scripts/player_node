@@ -2,6 +2,8 @@
 import rospy
 from player.player import Player
 from basic_skills.path_planning.rrt import RRT
+from basic_skills.path_planning.prm import PRM
+from basic_skills.path_planning.fmt import FMT
 from basic_skills.path_planning.planner_plotter import PlannerPlotter
 
 def run_node(player):
@@ -14,7 +16,9 @@ def run_node(player):
 
 if __name__ == '__main__':
     try:
-        p = Player(RRT(step_size=100, num_iter=50), 5)
+        #p = Player(RRT(step_size=100, num_iter=50), 5)
+        #p = Player(PRM(num_samples=300, num_neigh=5), 5)
+        p = Player(FMT(num_samples=300, radius=750), 5)
         rospy.init_node('player', anonymous=True)    
         rate = rospy.Rate(60)
         run_node(p)
