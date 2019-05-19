@@ -4,6 +4,7 @@
 #from .move_to import *
 #from .Goalie import *
 #from .robot import *
+from .player_data import *
 from .path_planning.path_planner import *
 from .path_planning.planner_plotter import *
 from .path_planning.prm import *
