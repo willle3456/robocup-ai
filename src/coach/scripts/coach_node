@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+
+import rospy
+from coach.coach import Coach
+
+def run(coach):
+    while not rospy.is_shutdown():
+        coach.run()
+        rate.sleep()
+    
+if __name__ == '__main__':
+    try:
+        rospy.init_node('coach')
+        coach = Coach()
+        rate = rospy.Rate(60)
+        run(coach)
+    except rospy.ROSInterruptException:
+        pass	
