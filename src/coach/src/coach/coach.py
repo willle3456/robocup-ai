@@ -4,7 +4,7 @@ from robocup_msgs.msg import Position
 from robocup_msgs.msg import Strategy
 from strategy_selection.simple_strategy_selector import SimpleStrategySelector
 from strategy_selection.selection_metrics import SelectionMetrics
-from basic_skills.player_data import Location
+from basic_skills.player_data import Pose2D
 from action_selection.selectors import *
 
 class Coach(object):
@@ -28,16 +28,16 @@ class Coach(object):
 
     def update_position_metrics(self, data):
         for f in data.friends:
-            tmp_loc = Location(f.r_pose.position.x, f.r_pose.position.y)
+            tmp_loc = Pose2D(f.r_pose.position.x, f.r_pose.position.y)
             tmp_zone = get_zone(tmp_loc)
             self.metrics.friend_zone[f.id][tmp_zone] += 1
         for e in data.enemies:
-            tmp_loc = Location(e.r_pose.position.x, e.r_pose.position.y)
+            tmp_loc = Pose2D(e.r_pose.position.x, e.r_pose.position.y)
             tmp_zone = get_zone(tmp_loc)
             self.metrics.enemy_zone[e.id][tmp_zone] += 1
  
         if data.ball_pos:
-            tmp_loc = Location(data.ball_pos.position.x, data.ball_pos.position.y)
+            tmp_loc = Pose2D(data.ball_pos.position.x, data.ball_pos.position.y)
             tmp_zone = get_zone(tmp_loc)
             self.metrics.ball_zone[tmp_zone] += 1
         self.init_flg = True

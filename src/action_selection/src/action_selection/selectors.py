@@ -1,5 +1,5 @@
 #!/usr/bin/env  python
-from basic_skills.player_data import PlayerData, Location
+from basic_skills.player_data import PlayerData, Pose2D
 
 HORZ_BOUNDS = [-4500, -2000, 0, 2000, 4500]
 VERT_BOUNDS = [-3000, -2000, -1000, 1000, 2000, 3000]

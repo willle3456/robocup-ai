@@ -25,8 +25,8 @@ class PlannerPlotter(object):
     def draw(self):
         self.ax.clear()
         if self.planner.found_goal:
-            print len(list(self.planner.graph.nodes()))
-            print self.planner.graph.has_node(self.planner.goal_node)
+            #print len(list(self.planner.graph.nodes()))
+            #print self.planner.graph.has_node(self.planner.goal_node)
             self.get_path_lines()
             if len(self.path_lines) < 1:
                 self.path_found = False

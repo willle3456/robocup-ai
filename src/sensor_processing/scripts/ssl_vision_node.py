@@ -137,10 +137,10 @@ class SSLVisionNode():
             old_x = e.r_pose.position.x
             new_x = new_positions.enemies[e.id].r_pose.position.x
             
-            old_y = f.r_pose.position.y
+            old_y = e.r_pose.position.y
             new_y = new_positions.enemies[e.id].r_pose.position.y
             
-            old_quat = f.r_pose.orientation
+            old_quat = e.r_pose.orientation
             new_quat = new_positions.enemies[e.id].r_pose.orientation
         
             old_angles = euler_from_quaternion([old_quat.x, old_quat.y, old_quat.z, old_quat.w])

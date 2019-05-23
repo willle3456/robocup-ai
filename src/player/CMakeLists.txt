@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 2.8.3)
 project(player)
 
 find_package(catkin REQUIRED COMPONENTS
-  #coach
   rospy
   std_msgs
   robocup_msgs
   geometry_msgs
-  basic_skills
+  action_selection
+  strategy_execution
 )
 
 catkin_python_setup()

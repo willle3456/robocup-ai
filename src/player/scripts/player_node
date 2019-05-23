@@ -4,19 +4,16 @@ from player.player import Player
 from basic_skills.path_planning.rrt import RRT
 from basic_skills.path_planning.prm import PRM
 from basic_skills.path_planning.fmt import FMT
-from basic_skills.path_planning.planner_plotter import PlannerPlotter
 
 def run_node(player):
-    plotter = PlannerPlotter(player.planner)
     while not rospy.is_shutdown():
         player.run()
-        plotter.draw()
         rate.sleep()
-    plotter.close()
 
 if __name__ == '__main__':
     try:
-        p = Player(RRT(step_size=200, num_iter=600), 5)
+        p = Player(5)
+        #p = Player(RRT(step_size=200, num_iter=600), 5)
         #p = Player(PRM(num_samples=600, num_neigh=5), 5)
         #p = Player(FMT(num_samples=1000, radius=400), 5)
         rospy.init_node('player', anonymous=True)    
