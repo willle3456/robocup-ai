@@ -2,7 +2,8 @@
 #trap 'kill $P1; exit' SIGINT
 set -m
 source devel/setup.bash
-$HOME/Documents/grSim/bin/grsim --headless &
+#$HOME/Documents/grSim/bin/grsim --headless &
+$HOME/Documents/grSim/bin/grsim &
 P1=$!
 roslaunch robocup_master master.launch &
 P2=$!
@@ -10,3 +11,4 @@ python $HOME/Documents/robocup-ai/src/robocup_master/src/robocup_master/config_l
 fg
 echo $P1
 kill $P1
+kill $P2

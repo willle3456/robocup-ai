@@ -28,11 +28,13 @@ class SSLReceiver():
     Receive data from SSL Vision
     '''
     def recv_msg(self):
+        #print 'receiving message'
         buff = select.select(self.rd, [], [], 0)
         for fd in buff[0]:
             if fd is self.sock:
                 data = self.sock.recv(2048)
                 try:
+                    #print 'message recieved'
                     return SSL_WrapperPacket().FromString(data)
                 except DecodeError:
                     print("Decode Error")

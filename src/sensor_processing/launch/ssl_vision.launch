@@ -1,3 +1,8 @@
 <launch>
-    <node name="ssl_vision_node" pkg="sensor_processing" type="ssl_vision_node.py" respawn="true"/>
+    <!--<arg name="num_cameras"/>-->
+    <arg name="team_color" default="yellow"/>
+    <arg name="rate" default="60"/>
+    <arg name="port" default="10020"/>
+    <!--<node name="ssl_vision_node" pkg="sensor_processing" type="ssl_vision_node.py" respawn="false" output="screen" args="$(arg num_cameras)"/>-->
+    <node name="ssl_vision_node" pkg="sensor_processing" type="tmp_ssl_vision_node.py" respawn="false" output="screen" args="$(arg team_color) $(arg rate) $(arg port)"/>
 </launch>
