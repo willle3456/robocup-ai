@@ -24,7 +24,12 @@ protobuf_generate_python(PROTO_PY
   proto/messages_robocup_ssl_wrapper.proto
 )
 
-include_directories(
+#include_directories(
 # include
-  ${catkin_INCLUDE_DIRS}
-)
+  #${catkin_INCLUDE_DIRS}
+#)
+
+if(CATKIN_ENABLE_TEST)
+  find_package(rostest REQUIRED)
+  add_rostest(test/test_all.test)
+endif()

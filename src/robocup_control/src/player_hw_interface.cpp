@@ -66,9 +66,9 @@ void PlayerHWInterface::write()
   insn.request.motor2 = motor_2.getCommand();
   insn.request.motor3 = motor_3.getCommand();
   insn.request.motor4 = motor_4.getCommand();
-  insn.request.kick = true;
-  insn.request.dribble = true;
-  insn.request.robot = 0;  // figure out numbering scheme later
+  insn.request.kick = false;
+  insn.request.dribble = false;
+  insn.request.robot = 5;  // figure out numbering scheme later
   if (cmd_client.call(insn))
   {
     return;

@@ -1,5 +1,5 @@
 #!/usr/bin/env  python
-from path_planning.path_planner import Point
+#from path_planning.path_planner import Point
 from geometry_msgs.msg import Pose, Twist
 import tf.transformations as tr
 import numpy as np
@@ -15,6 +15,7 @@ class PlayerData(object):
         theta = tr.euler_from_quaternion(tmp_array)[2]
         self.location.x = pose.position.x
         self.location.y = pose.position.y
+        #print 'theta: {0}'.format(theta)
         self.location.theta = theta
 
         self.velocities.x = twist.linear.x
@@ -39,8 +40,11 @@ class Pose2D(object):
         self.y = y
         self.theta = theta
 
+    #def __eq__(self, other):
+        #return (self.x == other.x) and (self.y == other.y) and (self.theta == other.theta)
+
     def __eq__(self, other):
-        return (self.x == other.x) and (self.y == other.y) and (self.theta == other.theta)
+        return (self.x == other.x) and (self.y == other.y)
 
     def __ne__(self, other):
         return not (self == other)
@@ -51,6 +55,14 @@ class Pose2D(object):
     def __repr__(self):
         return str(self)
 
-    def convert_to_point(self):
-        return Point(self.x, self.y)
+    #def convert_to_point(self):
+        #return Point(self.x, self.y)
+    
+    def convert_to_array(self):
+        return np.array([self.x, self.y])
 
+    def get_distance(self, other):
+        return np.linalg.norm(self.convert_to_array() - other.convert_to_array())
+
+    def get_angle_diff(self, other):
+        return self.theta - other.theta

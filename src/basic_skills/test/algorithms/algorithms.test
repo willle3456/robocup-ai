@@ -1,0 +1,5 @@
+<launch>
+    <test test-name="rrt_unit_test" type="rrt_unit_test.py" pkg="basic_skills" />
+    <test test-name="prm_unit_test" type="prm_unit_test.py" pkg="basic_skills" />
+    <test test-name="fmt_unit_test" type="fmt_unit_test.py" pkg="basic_skills" />
+</launch>

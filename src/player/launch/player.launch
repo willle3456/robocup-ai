@@ -1,3 +1,5 @@
 <launch>
-    <node pkg="player" name="player" type="player_node" respawn="false" output="screen"/>
+    <arg name="is_sim"/>
+    <arg name="num" />
+    <node pkg="player" name="player" type="player_node" respawn="false" output="screen" args="$(arg num) $(arg is_sim)"/>
 </launch>

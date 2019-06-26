@@ -1,19 +1,20 @@
 <launch>
-    <!--<arg name="is_sim" value="true"/>-->
+    <arg name="is_sim" value="true"/>
     <include file="$(find sensor_processing)/launch/ssl_vision.launch">
         <arg name="team_color" value="yellow"/>
         <arg name="rate" value="30"/>
-        <arg name="port" value="10006"/>
+        <arg name="port" value="10020"/>
     </include>
-    <!--<include file="$(find coach)/launch/coach.launch"/>
+    <!--<include file="$(find coach)/launch/coach.launch"/>-->
     
     <group unless="$(arg is_sim)">
         <include file="$(find robocup_control)/launch/test.launch"/>
     </group>
 
     <include file="$(find player)/launch/player.launch">
+        <arg name="num" value="0"/>
         <arg name="is_sim" value="$(arg is_sim)"/>
-    </include>-->
+    </include>
 </launch>
 
 

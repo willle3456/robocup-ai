@@ -31,3 +31,9 @@ def get_zone_vert(value):
         return 1
     else:
         return 0
+
+def get_zone_boundaries(zone):
+    x_idx = zone/5
+    y_idx = zone%5
+    
+    return HORZ_BOUNDS[x_idx], HORZ_BOUNDS[x_idx+1], VERT_BOUNDS[4-y_idx], VERT_BOUNDS[5-y_idx]

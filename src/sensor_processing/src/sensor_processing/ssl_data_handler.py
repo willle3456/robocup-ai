@@ -4,6 +4,7 @@ from robocup_msgs.msg import Position, RobotData
 from geometry_msgs.msg import Pose, Twist, Quaternion
 from tf.transformations import quaternion_from_euler, euler_from_quaternion
 from messages_robocup_ssl_wrapper_pb2 import SSL_WrapperPacket
+import math
 
 YELLOW = 0
 BLUE = 1
@@ -13,6 +14,7 @@ class SSLDataHandler(object):
     def __init__(self, team_color=YELLOW):
 
         self.team_color = team_color
+
         # dictionary of teammates and opponenets
         # format: {data: RobotData, time: last_timestamp}
         self.friends = {}
@@ -79,7 +81,7 @@ class SSLDataHandler(object):
 
         robot_data['data'].r_pose.position.x = robot.x
         robot_data['data'].r_pose.position.y = robot.y
-        robot_data['data'].r_pose.orientation = Quaternion(*quaternion_from_euler(0, 0, robot.orientation))
+        robot_data['data'].r_pose.orientation = Quaternion(*quaternion_from_euler(0, 0, math.radians(robot.orientation)))
         robot_data['time'] = time
 
         return robot_data
@@ -89,7 +91,7 @@ class SSLDataHandler(object):
         robot_data.id = r_id
         robot_data.r_pose.position.x = robot.x
         robot_data.r_pose.position.y = robot.y
-        robot_data.r_pose.orientation = Quaternion(*quaternion_from_euler(0, 0, robot.orientation))
+        robot_data.r_pose.orientation = Quaternion(*quaternion_from_euler(0, 0, math.radians(robot.orientation)))
         return {'data': robot_data, 'time': time}
                     
     def update_ball(self, ball, time):

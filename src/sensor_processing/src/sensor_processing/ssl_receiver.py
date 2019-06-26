@@ -40,3 +40,6 @@ class SSLReceiver():
                     print("Decode Error")
                     return None
         return None       
+
+    def close(self):
+        self.sock.close()

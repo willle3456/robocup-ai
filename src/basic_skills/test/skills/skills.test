@@ -1,0 +1,3 @@
+<launch>
+    <test test-name="move_to_unit_test" type="move_to_unit_test.py" pkg="basic_skills" />
+</launch>

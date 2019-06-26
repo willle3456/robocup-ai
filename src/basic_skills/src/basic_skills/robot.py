@@ -23,6 +23,24 @@ class Robot(object):
     def __str__(self):
         return 'Robot Data:\nTeam Color: {0}\nPlayer Data: {1}\nTeam Data: {2}\nOpp Data: {3}\nDefault Action: {4}\nNext Action: {5}\nCurrent Action: {6}\n'.format(self.is_blue, self.ego_data, self.friends, self.enemies, self._default_action, self._waiting_action, self._action)
 
+    def get_cart_location(self):
+        return self.ego_data.location.convert_to_array()
+
+    def get_orientation(self):
+        return self.ego_data.location.theta
+
+    def get_cart_velocity(self):
+        return self.ego_data.velocities.convert_to_array()
+
+    def get_angular_velocity(self):
+        return self.ego_data.velocities.theta 
+
+    def get_ball_location(self):
+        return self.ball.location.convert_to_array()
+
+    def get_ball_velocity(self):
+        return self.ball.velocities.convert_to_array()
+
     def get_action (self):
         return self._action
     

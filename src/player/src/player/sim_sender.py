@@ -5,7 +5,7 @@ from socket import socket
 from socket import AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_REUSEADDR
 from grSim_Packet_pb2 import grSim_Packet
 
-class SimSender:
+class SimSender(object):
     """
     Sends command packets to grSim
     """

@@ -1,0 +1,22 @@
+<launch>
+    <arg name="unit_test" default="true"/>
+    <arg name="node_test" default="true"/>
+    
+    <group if="$(arg unit_test)">
+        <test test-name="ssl_vision_unit_test" type="ssl_vision_unit_tests.py" pkg="sensor_processing"/>
+    </group>
+
+    <!--<node name="node_test" pkg="rostopic" type="rostopic"
+        args="echo '$(arg node_test)'"
+        output="screen"/>-->
+
+    <!--<group if="$(arg node_test)">
+        <node name="test_ssl_vision_node" type="ssl_vision_node" pkg="sensor_processing"/>
+        <test test-name="hztest" type="hztest" pkg="rostest" name="hztest">
+            <param name="topic" value="derp"/>
+            <param name="hz" value="60"/>
+            <param name="hzerror" value="0.1"/>
+            <param name = "test_duration" value="5"/>
+        </test>
+    </group>-->
+</launch>

@@ -14,6 +14,12 @@ add_message_files(
   RobotData.msg
 )
 
+#add_service_files(
+  #FILES
+  #Commnad.srv
+  #Data.srv
+#)
+
 generate_messages(
   DEPENDENCIES
   std_msgs geometry_msgs

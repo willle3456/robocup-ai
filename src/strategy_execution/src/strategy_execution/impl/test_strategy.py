@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 #from skill_execution import *
 from basic_skills import *
+from skill_execution import MoveToZone
 from strategy_execution import Strategy
 
 class TestStrategy(Strategy):
-    def __init__(self):
+    def __init__(self, robot):
         super(TestStrategy, self).__init__()
-        self.actions = [MoveTo()]
+        self.actions = [MoveToZone(robot)]
 
-    def common_rule(self, robot):
+    def common_rule(self, zone):
         return self.actions[0]
    
     def rule_zone_0(self, robot):
-        return self.common_rule(robot)
+        return self.common_rule(robot.zone)
 
     def rule_zone_1(self, robot):
         return self.common_rule(robot)

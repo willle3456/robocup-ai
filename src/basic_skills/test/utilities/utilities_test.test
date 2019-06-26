@@ -1,0 +1,6 @@
+<launch>
+    <test test-name="action_unit_test" type="action_unit_tests.py" pkg="basic_skills" />
+    <test test-name="pose_unit_test" type="pose_unit_tests.py" pkg="basic_skills" />
+    <test test-name="player_data_unit_tests" type="player_data_unit_tests.py" pkg="basic_skills" />
+    <test test-name="robot_unit_tests" type="robot_unit_tests.py" pkg="basic_skills" />
+</launch>

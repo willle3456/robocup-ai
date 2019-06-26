@@ -21,3 +21,11 @@ include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
 )
+
+if(CATKIN_ENABLE_TEST)
+  find_package(rostest REQUIRED)
+  add_rostest(test/utilities/utilities.test)
+  add_rostest(test/planner_helpers/planner_helpers.test)
+  add_rostest(test/skills/skills.test)
+  add_rostest(test/algorithms/algorithms.test)
+endif()

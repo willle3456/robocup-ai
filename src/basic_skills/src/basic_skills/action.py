@@ -32,6 +32,9 @@ class Action (object):
         
         # rotational movement
         self.rot_vel = 0
+
+        # status
+        self.status = CommandStatus.RUNNING
         
     def run(self, delta_time):
         # generate outputs in a vectored form
@@ -88,8 +91,8 @@ class Action (object):
         Used to determine if this command has finished executing
         :return: True if the command has finished executing, otherwise False
         """
-        #return self.status
-        return CommandStatus.RUNNING
+        return self.status
+        #return CommandStatus.RUNNING
 
     @abstractmethod
     def end(self, command_status):
@@ -109,5 +112,5 @@ class Action (object):
             return False
 
         self._robot = robot
-        #self.assigned()
+        self.assigned()
         return True

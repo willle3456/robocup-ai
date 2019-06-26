@@ -1,0 +1,6 @@
+<launch>
+    <test test-name="collisions_unit_test" type="test_collisions.py" pkg="basic_skills" />
+    <test test-name="sampler_unit_test" type="test_sampler.py" pkg="basic_skills" />
+    <test test-name="path_planner_unit_test" type="test_path_planner.py" pkg="basic_skills" />
+    <test test-name="traj_gen_unit_test" type="test_traj_gen.py" pkg="basic_skills" />
+</launch>

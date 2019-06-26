@@ -50,5 +50,5 @@ class GRSimConfig:
         self.sendto_grsim()
 
 if __name__ == '__main__':
-    config_parser = GRSimConfig('/home/willdle/Documents/robocup-ai/src/robocup_master/config/sample.place')
+    config_parser = GRSimConfig('/home/developer/Documents/robocup-ai/src/robocup_master/config/sample.place')
     config_parser.setup_grsim()
