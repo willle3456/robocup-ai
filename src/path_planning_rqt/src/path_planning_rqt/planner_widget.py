@@ -1,6 +1,6 @@
 #!/usr/bin/env  python
 
-from python_qt_binding.QtWidgets import QWidget, QGraphicsView, QGraphicsScene, QGraphicsEllipseItem
+from python_qt_binding.QtWidgets import QWidget, QGraphicsView, QGraphicsScene, QGraphicsEllipseItem, QGraphicsLineItem
 from python_qt_binding.QtGui import QPainter, QPen, QBrush, QColor, QTransform
 from python_qt_binding.QtCore import Signal
 from python_qt_binding import loadUi
@@ -44,6 +44,11 @@ class PlannerViewerWidget(QWidget):
         self.team_brush = QBrush(QColor(0,0,255))
         self.opp_pen = QPen(QColor(255,255,0))
         self.opp_brush = QBrush(QColor(255,255,0))
+
+        self.graph_pen = QPen(QColor(255, 0, 0))
+        self.graph_pen.setWidth(3)
+        self.path_pen = QPen(QColor(0, 0, 0))
+        self.path_pen.setWidth(3)
 
         # slots
         self.graph_update.connect(self.draw_graph)
@@ -122,12 +127,19 @@ class PlannerViewerWidget(QWidget):
         self.scene.update()
         #self.render(self.painter)
 
-    def draw_graph(self):
+    def draw_graph(self, graph_data):
         #self.draw_nodes()
         # remove old (can find by position)
         # add new
-        for u, v in self.graph.edges():
-            self.scene.addLine(u.x, u.y, v.x, v.y)
+        for u, v in graph_data.graph.edges():
+            tmp_line = QGraphicsLineItem(u.position.x/20, u.position.y/20, v.position.x/20, v.position.y/20)
+            tmp_line.setPen(self.graph_pen)
+            self.scene.addItem(tmp_line)
+
+        for u, v in zip(graph_data.path, graph_data.path[1:]):
+            tmp_line = QGraphicsLineItem(u.position.x/20, u.position.y/20, v.position.x/20, v.position.y/20)
+            tmp_line.setPen(self.path_pen)
+            self.scene.addItem(tmp_line)
         
         self.scene.update()
         #self.render(self.painter)

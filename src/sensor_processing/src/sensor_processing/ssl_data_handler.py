@@ -62,7 +62,7 @@ class SSLDataHandler(object):
                 self.friends[r_id] = self.new_robot_data(r_id, robot, time)
         else:
             try:
-                self.enemies[r_id] = self.fill_robot_data(self.friends[r_id], robot, time)
+                self.enemies[r_id] = self.fill_robot_data(self.enemies[r_id], robot, time)
             except KeyError:
                 self.enemies[r_id] = self.new_robot_data(r_id, robot, time)
                 

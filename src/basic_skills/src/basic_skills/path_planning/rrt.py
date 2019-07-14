@@ -16,6 +16,10 @@ class RRT(PathPlanner):
 
     def plan(self):
         #self.graph.clear()
+        self.graph_data.new_nodes = []
+        self.graph_data.removed_nodes = []
+        self.graph_data.new_edges = []
+        self.graph_data.removed_edges = []
         self.graph.add_node(self.start)
         self.found_goal = False
         #self.graph.goal_node = None
@@ -45,6 +49,10 @@ class RRT(PathPlanner):
 
         self.graph.add_node(q_new_pt)
         self.graph.add_edge(q_near, q_new_pt)
+        
+        self.graph_data.new_nodes.append(q_new_pt.convert_to_pose())
+        self.graph_data.new_edges.append(q_near.convert_to_pose())
+        self.graph_data.new_edges.append(q_new_pt.convert_to_pose())
 
         return q_new_pt
 

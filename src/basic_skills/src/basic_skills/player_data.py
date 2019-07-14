@@ -40,6 +40,12 @@ class Pose2D(object):
         self.y = y
         self.theta = theta
 
+    def convert_to_pose(self):
+        pose = Pose()
+        pose.position.x = self.x
+        pose.position.y = self.y
+        return pose
+
     #def __eq__(self, other):
         #return (self.x == other.x) and (self.y == other.y) and (self.theta == other.theta)
 

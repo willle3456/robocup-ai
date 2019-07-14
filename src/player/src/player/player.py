@@ -1,7 +1,7 @@
 #/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Pose, Twist
-from robocup_msgs.msg import Position, Strategy
+from robocup_msgs.msg import Position, Strategy, Graph
 #from robocup_msgs.srv import Command
 from basic_skills.move_to import MoveTo
 from skill_execution.zonal.move_to_zone import MoveToZone
@@ -23,6 +23,7 @@ class Player(Robot):
         # for when trajectory generation is ready
         # ROS control will be moved to the RPis
         self.cmd_pub = rospy.Publisher('/robocup_control/command_speed', Twist, queue_size=10)
+        self.graph_pub = rospy.Publisher('graph_data', Graph, queue_size=10)        
 
         self.sender = SimSender()
         self.sender.connect()
@@ -125,7 +126,8 @@ class Player(Robot):
 
             #print type(self._action)
             result  = self.run_action(0.01)
-            
+            self.graph_pub.publish(self._action.planner.get_graph())
+
         if not self.is_sim:
             cmd = Twist()
             cmd.linear.x = result[2]
