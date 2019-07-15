@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   robocup_msgs
 )
 
+catkin_python_setup()
+
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES path_planning_rqt
