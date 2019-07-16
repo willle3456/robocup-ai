@@ -156,5 +156,4 @@ class PlannerViewerWidget(QWidget):
         for item in self.path:
             self.scene.addItem(item)
         
-        print len(self.scene.items())
         self.scene.update()

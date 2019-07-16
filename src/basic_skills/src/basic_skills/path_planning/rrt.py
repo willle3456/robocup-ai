@@ -35,6 +35,12 @@ class RRT(PathPlanner):
                         self.found_goal = True
                         self.goal_node = q_new
                         break
+        
+    def update(self):
+        self.graph_data.new_nodes = []
+        self.graph_data.removed_nodes = []
+        self.graph_data.new_edges = []
+        self.graph_data.removed_edges = []
     
     def extend(self, q_rand):
         q_near = self.get_nearest(q_rand)
