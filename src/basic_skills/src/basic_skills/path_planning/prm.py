@@ -45,6 +45,8 @@ class PRM(PathPlanner):
             for n in neighbors:
                 if (not self.graph.has_edge(node, n)) and (not collision_checker.is_collision(node, n, self.obstacles)):
                         self.graph.add_edge(node, n)
+                        self.graph_data.new_edges_from.append(node.convert_to_pose())
+                        self.graph_data.new_edges_to.append(n.convert_to_pose())
 
     def found_path(self):
         path_to_start = False
