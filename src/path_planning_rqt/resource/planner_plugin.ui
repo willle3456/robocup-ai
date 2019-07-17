@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>630</height>
+    <width>989</width>
+    <height>733</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>15</x>
      <y>15</y>
-     <width>902</width>
-     <height>625</height>
+     <width>961</width>
+     <height>711</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -47,10 +47,10 @@
        <bool>false</bool>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="backgroundBrush">
        <brush brushstyle="NoBrush">
@@ -64,6 +64,14 @@
       <property name="interactive">
        <bool>false</bool>
       </property>
+      <property name="sceneRect">
+       <rectf>
+        <x>-450.000000000000000</x>
+        <y>-300.000000000000000</y>
+        <width>900.000000000000000</width>
+        <height>600.000000000000000</height>
+       </rectf>
+      </property>
       <property name="cacheMode">
        <set>QGraphicsView::CacheNone</set>
       </property>
@@ -75,7 +83,7 @@
     <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>TextLabel</string>
+       <string>Planner Output</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
