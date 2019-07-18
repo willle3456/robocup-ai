@@ -10,3 +10,5 @@ geometry_msgs/Pose[]    removed_edges_from
 geometry_msgs/Pose[]    removed_edges_to
 
 geometry_msgs/Pose[]    path
+
+geometry_msgs/Twist[]   traj

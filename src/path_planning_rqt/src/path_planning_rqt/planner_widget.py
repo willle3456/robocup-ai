@@ -41,7 +41,8 @@ class PlannerViewerWidget(QWidget):
         self.obs = {}
 
         self.path = []
-        
+        self.traj = []
+
         # pens and brushes
         self.team_pen = QPen(QColor(0,0,255))
         self.team_brush = QBrush(QColor(0,0,255))
@@ -52,12 +53,16 @@ class PlannerViewerWidget(QWidget):
         self.graph_pen.setWidth(1)
         self.path_pen = QPen(QColor(0, 0, 0))
         self.path_pen.setWidth(3)
+        self.traj_pen = QPen(QColor(255,0,255))
+        self.traj_pen.setWidth(5)
 
         # slots
         self.graph_update.connect(self.draw_graph)
         self.position_update.connect(self.draw_obs)
 
         self.bot_size = 15
+
+        self.new_traj = True
 
     def update_graph(self, graph):
         self.graph = graph
@@ -123,5 +128,25 @@ class PlannerViewerWidget(QWidget):
         
         for item in self.path:
             self.scene.addItem(item)
-        
+
+        if len(graph_msg.traj) > 0:
+            for item in self.traj:
+                self.scene.removeItem(item)
+            self.traj = []
+
+            start = graph_msg.path[0]
+            last_t = (start.position.x/10, -start.position.y/10)
+
+            for t in graph_msg.traj:
+                tmp_x = last_t[0] - t.linear.x/150
+                tmp_y = last_t[1] + t.linear.y/150
+                
+                tmp_line = QGraphicsLineItem(last_t[0], last_t[1], tmp_x, tmp_y)
+                tmp_line.setPen(self.traj_pen)
+                self.traj.append(tmp_line)
+                last_t = (tmp_x, tmp_y) 
+            
+            for t in self.traj:
+                self.scene.addItem(t)
+
         self.scene.update()
