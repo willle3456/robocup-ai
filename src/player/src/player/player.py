@@ -120,11 +120,7 @@ class Player(Robot):
             if type(next_action) is not type(self.prev_action):
                 self.add_action(next_action)
                 self.prev_action = next_action
-                
-            if type(self._action) is MoveToZone:
-                self._action.set_goal(random.randint(0,19))
-
-            #print type(self._action)
+            
             result  = self.run_action(0.01)
             self.graph_pub.publish(self._action.planner.get_graph())
 
