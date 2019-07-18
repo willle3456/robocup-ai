@@ -6,6 +6,7 @@ from path_planning.fmt import FMT
 #from path_planning.planner_plotter import PlannerPlotter
 from player_data import Pose2D
 from path_planning.traj_generator import TrajGenerator
+from geometry_msgs.msg import Twist
 import networkx as nx
 import math
 import time
@@ -16,7 +17,7 @@ class MoveTo(Action):
         self.planner = RRT(step_size=400, num_iter=200)
         #self.planner = PRM(num_samples=600, num_neigh=5)
         #self.planner = FMT(num_samples=400, radius=800)
-        self.traj_gen = TrajGenerator(t_a=0.45, t_f=1.200, delta_time=1/60.0, set_speed=False, polar_traj=False)
+        self.traj_gen = TrajGenerator(t_a=1.0, t_f=3.0, delta_time=1/30.0, set_speed=False, polar_traj=False)
         #self.plotter = PlannerPlotter(self.planner)
         
         self.traj = []
@@ -43,9 +44,39 @@ class MoveTo(Action):
             obs.append(o)
 
         return obs
+
+    def reached_goal(self):
+        return self.planner.goal.get_distance(self._robot.ego_data.location) < (2 * self.planner.bot_size)
+
+    def completed_movement(self):
+        self.norm_vel = 0.0
+        self.tang_vel = 0.0
+        self.rot_vel = 0.0
+        self.status = CommandStatus.COMPLETED
+        self.traj_idx = 0
+        self.traj = []
+        self.planner.graph_data.traj = []
+
+    def populate_traj_data(self):
+        for x, y in self.traj:
+            tmp_twist = Twist()
+            tmp_twist.linear.x = x
+            tmp_twist.linear.y = y
+            self.planner.graph_data.traj.append(tmp_twist)
+
+    def move_robot(self):
+        x, y = self.traj_gen.rotate_coords(self.traj[self.traj_idx][0], self.traj[self.traj_idx][1], self.get_robot().get_orientation())
+
+        self.traj_idx += 1
+
+        self.norm_vel = x/250.0
+        self.tang_vel = y/250.0
+        self.rot_vel = 0.0
+        self.planner.graph_data.traj = []
     
     def start(self):
-        self.run(0.01)
+        #self.run(0.01)
+        pass
 
     def run(self, delta_time):
 
@@ -62,38 +93,22 @@ class MoveTo(Action):
 
         # run planner
         self.planner.run()
-        '''
-        x_traj = self.traj_gen.get_time_based_traj(self.planner.path[0].x, self.planner.path[1].x, self.last_x)
-        y_traj = self.traj_gen.get_time_based_traj(self.planner.path[0].y, self.planner.path[1].y, self.last_y)
 
-        x, y = self.traj_gen.rotate_coords(x_traj[0], y_traj[0], self._robot.get_orientation())
+        if self.reached_goal():
+            print 'reached goal'
+            self.completed_movement()
 
-        self.norm_vel = x/1000.0
-        self.tang_vel = y/1000.0
-        self.rot_vel = 0.0
-
-
-        print 'vels: {0}, {1}'.format(x, y)
-        self.last_x = x
-        self.last_y = y
-        '''
-        if not self.traj:
-            self.traj = self.traj_gen.get_traj(self.planner.path, 0.0)
-
-        elif self.traj_idx < len(self.traj):
-            x, y = self.traj_gen.rotate_coords(self.traj[self.traj_idx][0], self.traj[self.traj_idx][1], self.get_robot().get_orientation())
-
-            self.traj_idx += 1
-
-            self.norm_vel = x/600.0
-            self.tang_vel = y/600.0
-            self.rot_vel = 0.0
         else:
-            self.norm_vel = 0.0
-            self.tang_vel = 0.0
-            self.rot_vel = 0.0
-            self.status = CommandStatus.COMPLETED
-            self.traj_idx = 0
-            self.traj = []
+            if not self.traj:
+                self.traj = self.traj_gen.get_traj(self.planner.path, 0.0)
+                self.traj_idx = 0
+                self.populate_traj_data()
+
+            elif self.traj_idx < len(self.traj):
+                self.move_robot()
+        
+            else:
+                print 'reached end of traj'
+                self.completed_movement()
 
         return [self.kick, self.chip, self.norm_vel, self.tang_vel, self.rot_vel]
