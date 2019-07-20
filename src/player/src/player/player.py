@@ -1,7 +1,7 @@
 #/usr/bin/env python
 import rospy
 from geometry_msgs.msg import Pose, Twist
-from robocup_msgs.msg import Position, Strategy, Graph
+from robocup_msgs.msg import Position, Strategy, Graph, Token
 #from robocup_msgs.srv import Command
 from basic_skills.move_to import MoveTo
 from skill_execution.zonal.move_to_zone import MoveToZone
@@ -23,7 +23,14 @@ class Player(Robot):
         # for when trajectory generation is ready
         # ROS control will be moved to the RPis
         self.cmd_pub = rospy.Publisher('/robocup_control/command_speed', Twist, queue_size=10)
-        self.graph_pub = rospy.Publisher('graph_data', Graph, queue_size=10)        
+        self.graph_pub = rospy.Publisher('graph_data', Graph, queue_size=10)
+
+        # for token based planning
+        self.token_pub = rospy.Publisher('/bids', Token, queue_size=10)
+        self.token_sub = rospy.Subscriber('/bids', Token, self.update_bid)
+        self.bid_msg = Token()
+        self.have_token = False
+        self.robot_bids = {} # dictionary for all the robot & their ids
 
         self.sender = SimSender()
         self.sender.connect()
@@ -40,12 +47,12 @@ class Player(Robot):
         self.prev_action = None
         self._default_action = MoveToZone(self)
         #self._default_action.set_robot(self)
-        
+
         # investigate changing how this is used to get initial goal generation
         self.init_flg = True
         self.is_sim = is_sim
         self.last_time = time.time()
-    
+
     def update_position(self, data):
         for f in data.friends:
             if f.id == self.id:
@@ -60,17 +67,28 @@ class Player(Robot):
         if data.ball_pos is not None:
             self.ball.location.x = data.ball_pos.position.x
             self.ball.location.y = data.ball_pos.position.y
-        
+
         if data.ball_speed is not None:
             self.ball.velocities.x = data.ball_speed.linear.x
             self.ball.velocities.y = data.ball_speed.linear.y
-        
+
         if self.init_flg:
             self.init_flg = False
             #self._default_action.set_goal(self.ego_data.location)
-        
+
     def update_strat(self, data):
         self.strat_id = data.strategy
+
+    def update_bid(self, data):
+        if data.winner == self.id:
+            self.have_token = True
+
+        # update the paths based on what the winner is doing
+        data.owner = self.id
+        data.path = self.planner.get_path()
+
+        # update bid value
+        self.bid_msg = self.get_cost()
 
     def write_output(self, robot_command, result):
         """
@@ -94,7 +112,7 @@ class Player(Robot):
         robot_command.kickspeedx = 0.0
         robot_command.kickspeedz = 0.0
         robot_command.spinner = False
-    
+
     def send_commands(self, result):
         """
         Sends all robot outputs in a packet to grSim
@@ -116,11 +134,11 @@ class Player(Robot):
             result[4] = 0.0
         else:
             next_action = self.strats[self.strat_id].apply(self.zone, self)
-            
+
             if type(next_action) is not type(self.prev_action):
                 self.add_action(next_action)
                 self.prev_action = next_action
-            
+
             result  = self.run_action(0.01)
             self.graph_pub.publish(self._action.planner.get_graph())
 
@@ -131,4 +149,14 @@ class Player(Robot):
             cmd.angular.z = result[4]
             self.cmd_pub.publish(cmd)
         else:
-            self.send_commands(result)          
+            self.send_commands(result)
+
+        if self.have_token:
+            self.bid_msg.winner = self.max_value(self.robot_bids)
+            self.path = self.planner.get_path()
+            self.have_token = False
+        else:
+            self.bid_msg.owner = self.id
+            self.bid_msg.bid = self.get_cost()
+
+        self.token_pub.publish(self.bid_msg)
