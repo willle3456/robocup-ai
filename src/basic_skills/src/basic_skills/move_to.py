@@ -19,7 +19,7 @@ class MoveTo(Action):
         #self.planner = FMT(num_samples=400, radius=800)
         self.traj_gen = TrajGenerator(t_a=1.0, t_f=3.0, delta_time=1/30.0, set_speed=False, polar_traj=False)
         #self.plotter = PlannerPlotter(self.planner)
-        
+
         self.traj = []
         self.traj_idx = 0
         self.start_time = 0
@@ -29,16 +29,16 @@ class MoveTo(Action):
         self.planner.goal = goal if goal is not None else self._robot.ego_data.location
         self.last_x = 0.0
         self.last_y = 0.0
-    
+
     def set_goal(self, goal):
         self.planner.goal = goal
-    
+
     def get_players_as_obs(self):
         obs = []
         for k,f in self._robot.friends.iteritems():
             o = Pose2D(f.location.x, f.location.y, 0)
             obs.append(o)
-            
+
         for k,e in self._robot.enemies.iteritems():
             o = Pose2D(e.location.x, e.location.y, 0)
             obs.append(o)
@@ -73,7 +73,7 @@ class MoveTo(Action):
         self.tang_vel = y/250.0
         self.rot_vel = 0.0
         self.planner.graph_data.traj = []
-    
+
     def start(self):
         #self.run(0.01)
         pass
@@ -106,7 +106,7 @@ class MoveTo(Action):
 
             elif self.traj_idx < len(self.traj):
                 self.move_robot()
-        
+
             else:
                 print 'reached end of traj'
                 self.completed_movement()
