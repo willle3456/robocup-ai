@@ -11,3 +11,4 @@ from .path_planning.planner_plotter import *
 from .path_planning.prm import *
 from .path_planning.rrt import *
 from .path_planning.traj_generator import *
+from .trajectory_generation import *
